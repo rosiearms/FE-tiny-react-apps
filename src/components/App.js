@@ -1,11 +1,36 @@
 import React from 'react';
+import SearchEmoji from './SearchEmoji';
+import SearchResults from './SearchResults';
+import emojis from '../data/emojiList'
+
 
 class App extends React.Component {
-  render () {
+  constructor(props) {
+    super(props);
+    this.state = {
+      emojis
+    }
+    this.emojiFilter = this.emojiFilter.bind(this);
+  }
+
+  emojiFilter(text) {
+    const filteredEmojis = this.state.emojis.filter((emoji) => {
+      return emoji.title.includes(text);
+    });
+    this.setState({
+      emojis: filteredEmojis
+    })
+
+  }
+
+  render() {
     return (
       <div>
-        <h1>Welcome to React</h1>
-        <p>Start working from <code>/src/components/App.js</code></p>
+        <h1>Emoji Search</h1>
+        <SearchEmoji
+          emojiFilter={this.emojiFilter} />
+        <SearchResults
+          emojis={this.state.emojis} />
       </div>
     );
   }
